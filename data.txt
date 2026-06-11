@@ -1,0 +1,38 @@
+Faculty
+    - Departments
+
+- Science and Information Technology
+    - Computer Science and Engineering
+    - Software Engineering
+    - Multimedia & Creative Technology
+    - Computing and Information System
+    - Information Technology & Management
+    - Robotics and Mechatronics Engineering
+- Business & Entrepreneurship
+    - Business Administration
+    - Management
+    - Real Estate
+    - Tourism & Hospitality Management
+    - Innovation & Entrepreneurship
+    - Accounting
+    - Finance & Banking
+    - Marketing
+- Humanities & Social Sciences
+    - English
+    - Law
+    - Journalism, Media and Communication
+    - Development Studies
+    - Information Science and Library Management
+- Engineering
+    - Information and Communication Engineering
+    - Textile Engineering
+    - Electrical and Electronic Engineering
+    - Architecture
+    - Civil Engineering
+- Health and Life Sciences
+    - Environmental Science and Disaster Management
+    - Pharmacy
+    - Nutrition and Food Engineering
+    - Public Health
+    - Physical Education & Sports Science
+    - Genetic Engineering and Biotechnology

@@ -4,10 +4,11 @@ import { StudentModel } from "../student/student.model";
 import { UserModel } from "./user.model";
 import { USER_ROLES } from "./user.constant";
 
-const lastStudentId = async (id: Types.ObjectId) => {
+const lastStudentId = async (id: Types.ObjectId, deptId: Types.ObjectId) => {
     const lastStudent = await StudentModel.findOne(
         {
-            admissionSemester: id
+            admissionSemester: id,
+            academicDepartment: deptId
         },
         {
             id: 1,
@@ -16,15 +17,16 @@ const lastStudentId = async (id: Types.ObjectId) => {
     ).sort({
         createdAt: -1
     }).lean();
-    //2024011018
-    //2024 01 1018
-    return lastStudent?.id.substring(6) || '0';
+    //263-12-0001
+    const lastDigits: string = lastStudent?.id?.split('-')[2] || '0000';
+    return lastDigits;
 };
 
-export const generateStudentId = async (id: Types.ObjectId, payload: TAcademicSemester, departmentId: number): Promise<string> => {
-    const currentId = await lastStudentId(id as Types.ObjectId);
+export const generateStudentId = async (id: Types.ObjectId, payload: TAcademicSemester, departmentCustomId: number, deptId: Types.ObjectId): Promise<string> => {
+    const currentId = await lastStudentId(id, deptId);
     let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
-    incrementId = `${payload.year}${payload.code}${departmentId}${incrementId}`
+    console.log(incrementId)
+    incrementId = `${payload.year.substring(2)}${payload.code.substring(1)}-${departmentCustomId}-${incrementId}`
     return incrementId;
 }
 

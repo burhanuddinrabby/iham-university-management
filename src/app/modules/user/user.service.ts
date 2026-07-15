@@ -38,7 +38,7 @@ const createStudentIntoDB = async (file: any, password: string, studentData: TSt
     try {
         session.startTransaction();
         const academicDepartment = await AcademicDepartmentModel.findById(studentData.academicDepartment);
-        userData.id = await generateStudentId(studentData.admissionSemester as Types.ObjectId, admissionSemester as TAcademicSemester, academicDepartment?.departmentId as number);
+        userData.id = await generateStudentId(studentData.admissionSemester as Types.ObjectId, admissionSemester as TAcademicSemester, academicDepartment?.departmentId as number, studentData.academicDepartment);
         //create a user
         // transaction 1
         const newUser = await UserModel.create([userData], { session });

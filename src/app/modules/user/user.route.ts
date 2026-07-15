@@ -14,6 +14,7 @@ const router = express.Router();
 
 
 router.post('/create-student', auth(USER_ROLES.superAdmin, USER_ROLES.admin, USER_ROLES.faculty), upload.single('file'), (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
     req.body = JSON.parse(req.body.data);
     next();
 }, validateRequest(studentValidations.createStudentValidation), UserControllers.createStudent);

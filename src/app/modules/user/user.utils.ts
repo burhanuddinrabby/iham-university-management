@@ -19,12 +19,12 @@ const lastStudentId = async (id: Types.ObjectId) => {
     //2024011018
     //2024 01 1018
     return lastStudent?.id.substring(6) || '0';
-}; 
+};
 
-export const generateStudentId = async (id: Types.ObjectId, payload: TAcademicSemester): Promise<string> => {
+export const generateStudentId = async (id: Types.ObjectId, payload: TAcademicSemester, departmentId: number): Promise<string> => {
     const currentId = await lastStudentId(id as Types.ObjectId);
     let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
-    incrementId = `${payload.year}${payload.code}${incrementId}`
+    incrementId = `${payload.year}${payload.code}${departmentId}${incrementId}`
     return incrementId;
 }
 
@@ -42,7 +42,7 @@ export const generateFacultyId = async (): Promise<string> => {
         createdAt: -1
     }).lean();
     const idNumber = (Number(lastFaculty?.id?.substring(2)) || 0) + 1
-    const incrementId = "F-"+((idNumber).toString().padStart(5, '0'));
+    const incrementId = "F-" + ((idNumber).toString().padStart(5, '0'));
     return incrementId;
 };
 
@@ -60,6 +60,6 @@ export const generateAdminId = async (): Promise<string> => {
         createdAt: -1
     }).lean();
     const idNumber = (Number(lastAdmin?.id?.substring(2)) || 0) + 1
-    const incrementId = "A-"+((idNumber).toString().padStart(5, '0'));
+    const incrementId = "A-" + ((idNumber).toString().padStart(5, '0'));
     return incrementId;
 };

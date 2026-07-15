@@ -6,6 +6,7 @@ import { JwtPayload } from "jsonwebtoken";
 
 const createStudent = catchAsync(async (req, res) => {
     const { password, student } = req.body;
+    // console.log(password, student)
     const result = await UserServices.createStudentIntoDB(req?.file, password, student);
 
     sendResponse(res, {

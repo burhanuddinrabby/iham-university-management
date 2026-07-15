@@ -12,6 +12,10 @@ Body:
 }
 ```
 
+#### Response
+```ts
+
+```
 ---
 
 ### GET - `/api/v1/academic-faculties`
@@ -20,6 +24,26 @@ Protected endpoint for `superAdmin`, `admin`, and `faculty`.
 
 **Supports common filters and pagination.**
 
+#### Response
+
+```ts
+type Response = {
+  success: boolean;
+  message: string;
+  meta: {
+    page: number;
+    limit: number;
+    totalEntries: number;
+    totalPage: number;
+  };
+  data: Array<{
+    _id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+  }>;
+};
+```
 
 ---
 

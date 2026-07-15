@@ -14,11 +14,16 @@ const auth = (...roles: TUserRole[]) => {
             throw new AppError(status.FORBIDDEN, 'You\'re not authorized!')
         }
 
-        const decoded = jwt.verify(token, config.jwt_access_token as string) as JwtPayload;
+        let decoded;
+        try {
+            decoded = jwt.verify(token, config.jwt_access_token as string) as JwtPayload;
+        } catch (error) {
+            throw new AppError(status.UNAUTHORIZED, 'You\'re not authorized!');
+        }
 
         const isUserExist = await isUserExistVerification(decoded.id);
 
-        if(isUserExist?.passwordChangedAt){
+        if (isUserExist?.passwordChangedAt) {
             const tokenIsExpired = await UserModel.isJWTIssuedBeforePasswordChanged(isUserExist?.passwordChangedAt, decoded.iat as number)
             if (tokenIsExpired) {
                 throw new AppError(status.FORBIDDEN, 'You\'re not authorized!');

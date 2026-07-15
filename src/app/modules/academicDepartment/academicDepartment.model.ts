@@ -9,6 +9,10 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>({
         unique: true,
         required: true
     },
+    departmentId:{
+        type: Number,
+        unique: true,
+    },
     academicFaculty: {
         type: Schema.Types.ObjectId,
         ref: 'AcademicFaculty',

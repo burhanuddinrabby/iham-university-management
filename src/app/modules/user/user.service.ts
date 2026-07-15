@@ -14,7 +14,6 @@ import { FacultyModel } from "../faculty/faculty.model";
 import { AdminModel } from "../admin/admin.model";
 import { TAdmin } from "../admin/admin.interface";
 import { Types } from 'mongoose';
-import { verifyToken } from "../auth/auth.utils";
 import { JwtPayload } from "jsonwebtoken";
 import { uploadImageToCloudinary } from "../../utils/uploadImage";
 import { AcademicDepartmentModel } from "../academicDepartment/academicDepartment.model";
@@ -25,6 +24,7 @@ const createStudentIntoDB = async (file: any, password: string, studentData: TSt
 
     //if pass not given and set role
     userData.password = password || (config.default_password as string);
+    userData.needsPasswordChange = password ? false : true;
     userData.role = USER_ROLES.student;
     userData.email = studentData.email;
 
@@ -37,7 +37,8 @@ const createStudentIntoDB = async (file: any, password: string, studentData: TSt
 
     try {
         session.startTransaction();
-        userData.id = await generateStudentId(studentData.admissionSemester as Types.ObjectId, admissionSemester as TAcademicSemester);
+        const academicDepartment = await AcademicDepartmentModel.findById(studentData.academicDepartment);
+        userData.id = await generateStudentId(studentData.admissionSemester as Types.ObjectId, admissionSemester as TAcademicSemester, academicDepartment?.departmentId as number);
         //create a user
         // transaction 1
         const newUser = await UserModel.create([userData], { session });
@@ -60,7 +61,6 @@ const createStudentIntoDB = async (file: any, password: string, studentData: TSt
             studentData.profileImg = studentData?.profileImg || '';
         }
         //check department
-        const academicDepartment = await AcademicDepartmentModel.findById(studentData.academicDepartment);
         if (!academicDepartment)
             throw new AppError(status.NOT_FOUND, 'Academic Department Not Found');
 
@@ -91,6 +91,7 @@ const createFacultyIntoDB = async (file: any, password: string, facultyData: TFa
 
     //if pass not given and set role
     userData.password = password || (config.default_password as string);
+    userData.needsPasswordChange = password ? false : true;
     userData.role = USER_ROLES.faculty;
     userData.email = facultyData.email;
 
@@ -151,6 +152,7 @@ const createAdminIntoDB = async (file: any, password: string, adminData: TAdmin)
 
     //if pass not given and set role
     userData.password = password || (config.default_password as string);
+    userData.needsPasswordChange = password ? false : true;
     userData.role = USER_ROLES.admin;
     userData.email = adminData.email;
 

@@ -21,6 +21,26 @@ Protected endpoint for `superAdmin`, `admin`, and `faculty`.
 
 **Supports common filters and pagination.**
 
+#### Successful Response
+```ts
+type Response = {
+  success: boolean
+  message: string
+  meta: {
+    page: number
+    limit: number
+    totalEntries: number
+    totalPage: number
+  }
+  data: Array<{
+    _id: string
+    name: string
+    academicFaculty: any
+    createdAt: string
+    updatedAt: string
+  }>
+}
+```
 
 Example query:
 

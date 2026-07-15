@@ -3,6 +3,13 @@ import { TAcademicDepartment } from "./academicDepartment.interface";
 import { AcademicDepartmentModel } from "./academicDepartment.model";
 
 const createAcademicDepartmentIntoDB = async (payload: TAcademicDepartment) => {
+    const lastDept = await AcademicDepartmentModel.findOne({}, { departmentId: 1 }).sort({ createdAt: -1 }).lean();
+    const lastDeptId = lastDept?.departmentId;
+    if(lastDeptId){
+        payload.departmentId = lastDeptId + 1;
+    }else{
+        payload.departmentId = 11;
+    }
     const result = await AcademicDepartmentModel.create(payload);
     return result;
 }

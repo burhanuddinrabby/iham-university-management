@@ -120,6 +120,10 @@ const studentSchema = new Schema<TStudent, TStudentModel>({
     required: true
   },
   profileImg: String,
+  profileDeleteImgbbUrl: {
+    type: String,
+    required: false
+  },
   admissionSemester: {
     type: Schema.Types.ObjectId,
     required: [true, 'Admission Semester is required'],

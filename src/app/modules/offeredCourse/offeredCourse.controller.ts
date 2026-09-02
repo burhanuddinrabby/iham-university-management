@@ -65,7 +65,8 @@ const getMyOfferedCourses = catchAsync(async (req, res) => {
         statusCode: status.OK,
         success: true,
         message: 'Your offered courses fetched successfully!!',
-        data: result
+        meta: result.meta,
+        data: result.result
     });
 });
 

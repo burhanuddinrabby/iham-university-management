@@ -19,7 +19,7 @@ router.put('/:id/assign-faculties', auth(USER_ROLES.superAdmin, USER_ROLES.admin
 
 router.delete('/:id/remove-faculties', auth(USER_ROLES.superAdmin, USER_ROLES.admin), validateRequest(CourseValidations.courseFacultyValidation), CourseController.removeFaculties);
 
-router.get('/:id/get-faculties', auth(USER_ROLES.superAdmin, USER_ROLES.admin, USER_ROLES.faculty, USER_ROLES.student), validateRequest(CourseValidations.courseFacultyValidation), CourseController.getFacultiesWithCourse);
+router.get('/:id/get-faculties', auth(USER_ROLES.superAdmin, USER_ROLES.admin, USER_ROLES.faculty, USER_ROLES.student), CourseController.getFacultiesWithCourse);
 
 router.get('/', auth(USER_ROLES.superAdmin, USER_ROLES.admin, USER_ROLES.faculty), CourseController.getAllCourses);
 

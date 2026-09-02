@@ -12,10 +12,14 @@ const createSemesterRegistrationIntoDB = async (payload: Partial<TSemesterRegist
     if (!isSemesterExist) {
         throw new AppError(status.NOT_FOUND, 'This academic semester is not found');
     }
-
+    const startDate = new Date(payload?.startDate as Date).getTime() / 1000;
+    const endDate = new Date(payload?.endDate as Date).getTime() / 1000;
+    if(startDate > endDate){
+        throw new AppError(status.BAD_REQUEST, 'Start date is later than end date!');
+    }
     const isUpcomingExist = await SemesterRegistrationModel.findOne({ status: 'upcoming' });
     if (isUpcomingExist) {
-        throw new AppError(status.BAD_REQUEST, 'There is already a upcoming semester');
+        throw new AppError(status.BAD_REQUEST, 'There is already an upcoming semester');
     }
 
     const isSemesterRegistered = await SemesterRegistrationModel.findOne({ academicSemester: payload?.academicSemester });

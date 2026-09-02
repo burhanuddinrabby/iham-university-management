@@ -8,7 +8,7 @@ import { prerequisiteFormation } from "./course.utils";
 const createCourseIntoDB = async (payload: TCoursePayload) => {
     const courseCode = payload?.courseCode || (payload?.prefix + payload?.code)
     payload.courseCode = courseCode;
-    if (payload?.prerequisites.length) {
+    if (payload?.prerequisites?.length) {
         const oldData: TPrerequisitesPayload[] = [...payload.prerequisites]
         const prerequisitesArray: TPrerequisites[] = await Promise.all(
             oldData.map(async (item) => {

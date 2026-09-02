@@ -10,6 +10,7 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
     const searchFields = ['email', 'name.firstName', 'name.middleName', 'name.lastName', 'presentAddress']
 
     const facultyQuery = new QueryBuilder(FacultyModel.find()
+        .populate('user')
         .populate({
             path: 'academicDepartment',
             populate: {
@@ -25,6 +26,7 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
 
 const getSingleFacultyFromDB = async (id: string) => {
     const result = await FacultyModel.findOne({ id })
+        .populate('user')
         .populate({
             path: 'academicDepartment',
             populate: {

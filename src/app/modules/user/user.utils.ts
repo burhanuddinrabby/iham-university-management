@@ -25,7 +25,6 @@ const lastStudentId = async (id: Types.ObjectId, deptId: Types.ObjectId) => {
 export const generateStudentId = async (id: Types.ObjectId, payload: TAcademicSemester, departmentCustomId: number, deptId: Types.ObjectId): Promise<string> => {
     const currentId = await lastStudentId(id, deptId);
     let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
-    console.log(incrementId)
     incrementId = `${payload.year.substring(2)}${payload.code.substring(1)}-${departmentCustomId}-${incrementId}`
     return incrementId;
 }

@@ -12,4 +12,6 @@ router.patch('/update-enrolled-course-marks', auth(USER_ROLES.superAdmin, USER_R
 
 router.get('/my-enrolled-courses', auth(USER_ROLES.student), EnrolledCourseController.getMyEnrolledCourse);
 
+router.get('/', auth(USER_ROLES.faculty), EnrolledCourseController.getFacultyEnrolledCourses);
+
 export const EnrolledCourseRoutes = router;

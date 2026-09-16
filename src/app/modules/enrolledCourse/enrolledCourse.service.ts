@@ -187,10 +187,36 @@ const getMyEnrolledCourseFromDB = async (studentId: string, query: Record<string
     const meta = await enrolledCourseQuery.countTotal();
 
     return { meta, result };
-}
+};
+
+const getFacultyEnrolledCoursesFromDB = async (facultyId: string, query: Record<string, unknown>) => {
+    const faculty = await FacultyModel.findOne({ id: facultyId });
+
+    if (!faculty)
+        throw new AppError(status.NOT_FOUND, 'Faculty not found');
+
+    const currentSemester = await SemesterRegistrationModel.findOne({ status: 'ongoing' });
+    if (!currentSemester)
+        throw new AppError(status.NOT_FOUND, 'No ongoing semester found');
+
+    const filterQuery = { ...query };
+    filterQuery.semesterRegistration = filterQuery.semesterRegistration || currentSemester._id;
+    filterQuery.faculty = faculty._id;
+
+    const enrolledCourseQuery = new QueryBuilder(
+        EnrolledCourseModel.find().populate('semesterRegistration academicSemester academicFaculty academicDepartment course offeredCourse faculty student'),
+        filterQuery
+    );
+
+    const result = await enrolledCourseQuery.modelQuery;
+    const meta = await enrolledCourseQuery.countTotal();
+
+    return { meta, result };
+};
 
 export const EnrolledCourseServices = {
     createEnrolledCourseIntoDB,
     updateEnrolledCourseIntoDB,
-    getMyEnrolledCourseFromDB
+    getMyEnrolledCourseFromDB,
+    getFacultyEnrolledCoursesFromDB
 }
